@@ -28,7 +28,7 @@ def clone_repository(username, reponame):
         - repone = public repository name
     '''
     url = "https://github.com/" + username + "/" + reponame + ".git"
-    call(["git", "clone", url])
+    call(["git", "clone", url, reponame])
 
 parser = argparse.ArgumentParser(description="Lists and lets you clone github repositories")
 parser.add_argument("username", help="pass github username to function call")
@@ -46,11 +46,12 @@ while True:
     try:
         if choice == "q":
             break 
-        elif int(choice) > 0 and int(choice) <= length:
-            print(f"git clone {choice}")
-            repo = repos[(choice - 1)]
-            clone_repository(user, repo)
-            break
+        elif int(choice) > 0:
+            if int(choice) <= int(length):
+                repo = repos[(int(choice) - 1)]
+                print(f"Cloning into ./{repo}")
+                clone_repository(user, repo)
+                break
     except TypeError:
         pass
     except ValueError:
